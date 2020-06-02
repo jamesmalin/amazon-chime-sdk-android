@@ -13,6 +13,7 @@ buildscript {
         maven { url "https://plugins.gradle.org/m2/" }
         google()
         jcenter()
+        mavenCentral()
     }
 
     dependencies {
@@ -22,6 +23,7 @@ buildscript {
         classpath("org.jlleitschuh.gradle:ktlint-gradle:9.1.1")
         classpath "org.jetbrains.dokka:dokka-gradle-plugin:${dokka_version}"
         classpath 'com.github.jengelman.gradle.plugins:shadow:4.0.2'
+        classpath 'com.amplifyframework:amplify-tools-gradle-plugin:1.0.1'
     }
 }
 plugins {
@@ -31,6 +33,7 @@ plugins {
 
 apply plugin: 'io.gitlab.arturbosch.detekt'
 apply plugin: 'org.jlleitschuh.gradle.ktlint'
+apply plugin: 'com.amplifyframework.amplifytools'
 
 def localPropertiesFile = new File(getRootDir(), "local.properties")
 Properties localProperties = new Properties()
@@ -44,6 +47,7 @@ allprojects {
     repositories {
         google()
         jcenter()
+        mavenCentral()
         flatDir {
             // dirs '../amazon-chime-sdk/libs'
             dirs 'libs'

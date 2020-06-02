@@ -9,6 +9,7 @@ import android.Manifest
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.Button
 import android.widget.EditText
@@ -21,6 +22,11 @@ import androidx.core.content.ContextCompat
 import com.amazonaws.services.chime.sdk.meetings.utils.Versioning
 import com.amazonaws.services.chime.sdk.meetings.utils.logger.ConsoleLogger
 import com.amazonaws.services.chime.sdk.meetings.utils.logger.LogLevel
+import com.amplifyframework.AmplifyException
+import com.amplifyframework.api.aws.AWSApiPlugin
+import com.amplifyframework.auth.cognito.AWSCognitoAuthPlugin
+import com.amplifyframework.core.Amplify
+import com.amplifyframework.datastore.AWSDataStorePlugin
 import java.io.BufferedReader
 import java.io.InputStreamReader
 import java.net.HttpURLConnection
@@ -37,7 +43,7 @@ class MeetingHomeActivity : AppCompatActivity() {
     private val ioDispatcher: CoroutineDispatcher = Dispatchers.IO
 
     private val WEBRTC_PERMISSION_REQUEST_CODE = 1
-    private val MEETING_REGION = "us-east-1"
+    private val MEETING_REGION = "us-west-2"
     private val TAG = "MeetingHomeActivity"
 
     private val WEBRTC_PERM = arrayOf(
@@ -68,6 +74,17 @@ class MeetingHomeActivity : AppCompatActivity() {
 
         val versionText: TextView = findViewById(R.id.versionText) as TextView
         versionText.text = "${getString(R.string.version_prefix)}${Versioning.sdkVersion()}"
+
+        try {
+            Amplify.addPlugin(AWSDataStorePlugin())
+            Amplify.addPlugin(AWSApiPlugin())
+            Amplify.addPlugin(AWSCognitoAuthPlugin())
+            Amplify.configure(applicationContext)
+
+            Log.i("Tutorial", "Initialized Amplify")
+        } catch (e: AmplifyException) {
+            Log.e("Tutorial", "Could not initialize Amplify", e)
+        }
     }
 
     private fun joinMeeting() {
