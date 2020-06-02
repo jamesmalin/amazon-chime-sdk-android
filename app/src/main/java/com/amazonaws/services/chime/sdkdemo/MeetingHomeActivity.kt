@@ -9,6 +9,7 @@ import android.Manifest
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.Button
 import android.widget.EditText
@@ -21,6 +22,17 @@ import androidx.core.content.ContextCompat
 import com.amazonaws.services.chime.sdk.meetings.utils.Versioning
 import com.amazonaws.services.chime.sdk.meetings.utils.logger.ConsoleLogger
 import com.amazonaws.services.chime.sdk.meetings.utils.logger.LogLevel
+import com.amplifyframework.AmplifyException
+import com.amplifyframework.api.aws.AWSApiPlugin
+// import com.amplifyframework.auth.AuthChannelEventName
+import com.amplifyframework.auth.cognito.AWSCognitoAuthPlugin
+// import com.amplifyframework.auth.cognito.AWSCognitoAuthSession
+// import com.amplifyframework.auth.result.AuthSessionResult
+import com.amplifyframework.core.Amplify
+// import com.amplifyframework.core.InitializationStatus
+import com.amplifyframework.datastore.AWSDataStorePlugin
+// import com.amplifyframework.hub.HubChannel
+// import com.amplifyframework.hub.HubEvent
 import java.io.BufferedReader
 import java.io.InputStreamReader
 import java.net.HttpURLConnection
@@ -37,7 +49,7 @@ class MeetingHomeActivity : AppCompatActivity() {
     private val ioDispatcher: CoroutineDispatcher = Dispatchers.IO
 
     private val WEBRTC_PERMISSION_REQUEST_CODE = 1
-    private val MEETING_REGION = "us-east-1"
+    private val MEETING_REGION = "us-west-2"
     private val TAG = "MeetingHomeActivity"
 
     private val WEBRTC_PERM = arrayOf(
@@ -68,6 +80,54 @@ class MeetingHomeActivity : AppCompatActivity() {
 
         val versionText: TextView = findViewById(R.id.versionText) as TextView
         versionText.text = "${getString(R.string.version_prefix)}${Versioning.sdkVersion()}"
+
+        try {
+            Amplify.addPlugin(AWSDataStorePlugin())
+            Amplify.addPlugin(AWSApiPlugin())
+            Amplify.addPlugin(AWSCognitoAuthPlugin())
+            Amplify.configure(applicationContext)
+
+            Log.i("Tutorial", "Initialized Amplify")
+        } catch (e: AmplifyException) {
+            Log.e("Tutorial", "Could not initialize Amplify", e)
+        }
+
+//        Amplify.Auth.fetchAuthSession(
+//            { result -> Log.i("AmplifyQuickstart", result.toString()) },
+//            { error -> Log.e("AmplifyQuickstart", error.toString()) }
+//        )
+
+        Amplify.Auth.signInWithWebUI(
+            this,
+            { result -> Log.i("AuthQuickStart", result.toString()) },
+            { error -> Amplify.Auth.handleWebUISignInResponse(intent)
+                Amplify.Auth.signInWithWebUI(
+                    this,
+                    { result -> Log.i("AuthQuickStart", result.toString()) },
+                    { error -> Amplify.Auth.handleWebUISignInResponse(intent)
+                        Log.e("AuthQuickStart", error.toString())
+                    }
+                )
+            }
+        )
+//        Amplify.Auth.fetchAuthSession(
+//            { result ->
+//                val cognitoAuthSession = result as AWSCognitoAuthSession
+//                when (cognitoAuthSession.identityId.type) {
+//                    AuthSessionResult.Type.SUCCESS -> Log.i("AuthQuickStart", "IdentityId: " + cognitoAuthSession.identityId.value)
+//                    AuthSessionResult.Type.FAILURE -> Log.i("AuthQuickStart", "IdentityId not present because: " + cognitoAuthSession.identityId.error.toString())
+//                }
+//            },
+//            { error -> Log.e("AuthQuickStart", error.toString()) }
+//        )
+    }
+
+    override fun onNewIntent(intent: Intent?) {
+        super.onNewIntent(intent)
+
+        if (intent?.scheme != null && "chime".equals(intent?.scheme)) {
+            Amplify.Auth.handleWebUISignInResponse(intent)
+        }
     }
 
     private fun joinMeeting() {
