@@ -13,7 +13,9 @@
         },
         "categories": {
             "auth": {
-                "chimea6c171c1": {}
+                "chimea6c171c1": {
+                    "hostedUIProviderCreds": "[]"
+                }
             }
         }
     }
