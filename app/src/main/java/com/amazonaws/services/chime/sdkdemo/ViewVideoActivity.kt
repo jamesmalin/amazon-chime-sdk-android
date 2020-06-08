@@ -44,7 +44,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-class MeetingHomeActivity : AppCompatActivity() {
+class ViewVideoActivity : AppCompatActivity() {
     private val logger = ConsoleLogger(LogLevel.INFO)
     private val uiScope = CoroutineScope(Dispatchers.Main)
     private val ioDispatcher: CoroutineDispatcher = Dispatchers.IO
@@ -72,22 +72,12 @@ class MeetingHomeActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-//        setContentView(R.layout.activity_meeting_home)
-        setContentView(R.layout.activity_user_guest)
+        setContentView(R.layout.activity_watch_video)
         meetingEditText = findViewById(R.id.editMeetingId)
         nameEditText = findViewById(R.id.editName)
         authenticationProgressBar = findViewById(R.id.progressAuthentication)
 
         findViewById<Button>(R.id.buttonContinue)?.setOnClickListener { joinMeeting() }
-        findViewById<Button>(R.id.buttonContinue)?.setOnClickListener {
-            val intent = Intent(applicationContext, MainHomeActivity::class.java)
-            startActivity(intent)
-        }
-
-        findViewById<Button>(R.id.buttonContinue3)?.setOnClickListener {
-            val intent = Intent(applicationContext, ViewVideoActivity::class.java)
-            startActivity(intent)
-        }
 
         val versionText: TextView = findViewById(R.id.versionText) as TextView
         versionText.text = "${getString(R.string.version_prefix)}${Versioning.sdkVersion()}"

@@ -4,16 +4,19 @@
   -->
 
 <resources>
-    <string name="app_name">MobileSdkDemo</string>
-    <string name="edit_meeting_id">Meeting ID</string>
+    <string name="app_name">RydeCam</string>
+    <string name="edit_meeting_id">Video ID</string>
     <string name="edit_name">Your Name</string>
-    <string name="main_title">Join a meeting</string>
+    <string name="main_title">Create Ride Video</string>
+    <string name="main_title2">Watch Ride Video</string>
+    <string name="main_login">Login to RydeCam</string>
     <string name="main_continue">Continue</string>
+    <string name="main_guest">Join as Guest</string>
     <string name="meeting_join">Join</string>
-    <string name="meeting_leave">Leave Meeting</string>
+    <string name="meeting_leave">Leave Video</string>
     <string name="meeting_mute">Toggle Mute</string>
     <string name="test_url">https://eszrfurmz0.execute-api.us-west-2.amazonaws.com/Prod/</string>
-    <string name="preview_meeting_info">Ready to join meeting %1$s as %2$s.</string>
+    <string name="preview_meeting_info">Ready to join video %1$s as %2$s.</string>
     <string name="device_management_title">Select devices</string>
     <string name="audio_device_title">Audio Device</string>
     <string name="volume_indicator">Volume Indicator</string>
@@ -23,12 +26,14 @@
     <string name="speaker_button">Toggle Speaker</string>
     <string name="toggle_mute">Toggle Mute</string>
     <string name="screen_share_view">Screen Share</string>
-    <string name="version_prefix">amazon-chime-sdk-android@</string>
+    <string name="version_prefix">rydecam@</string>
     <string name="video_view">Video Collection</string>
+    <string name="username">Username</string>
+    <string name="password">Password</string>
 
     <!-- Notify users for errors -->
-    <string name="user_notification_meeting_id_invalid">Meeting ID is invalid</string>
+    <string name="user_notification_meeting_id_invalid">Video ID is invalid</string>
     <string name="user_notification_attendee_name_invalid">Attendee name is invalid</string>
     <string name="user_notification_permission_error">WebRTC cannot work without permissions</string>
-    <string name="user_notification_meeting_start_error">There was an error starting the meeting. Please try again</string>
+    <string name="user_notification_meeting_start_error">There was an error starting the service. Please try again</string>
 </resources>

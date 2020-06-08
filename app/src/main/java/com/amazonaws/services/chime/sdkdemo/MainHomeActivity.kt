@@ -44,7 +44,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-class MeetingHomeActivity : AppCompatActivity() {
+class MainHomeActivity : AppCompatActivity() {
     private val logger = ConsoleLogger(LogLevel.INFO)
     private val uiScope = CoroutineScope(Dispatchers.Main)
     private val ioDispatcher: CoroutineDispatcher = Dispatchers.IO
@@ -72,20 +72,15 @@ class MeetingHomeActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-//        setContentView(R.layout.activity_meeting_home)
-        setContentView(R.layout.activity_user_guest)
+        setContentView(R.layout.activity_meeting_home)
         meetingEditText = findViewById(R.id.editMeetingId)
         nameEditText = findViewById(R.id.editName)
         authenticationProgressBar = findViewById(R.id.progressAuthentication)
 
         findViewById<Button>(R.id.buttonContinue)?.setOnClickListener { joinMeeting() }
-        findViewById<Button>(R.id.buttonContinue)?.setOnClickListener {
-            val intent = Intent(applicationContext, MainHomeActivity::class.java)
-            startActivity(intent)
-        }
 
         findViewById<Button>(R.id.buttonContinue3)?.setOnClickListener {
-            val intent = Intent(applicationContext, ViewVideoActivity::class.java)
+            val intent = Intent(applicationContext, homeLogin::class.java)
             startActivity(intent)
         }
 
@@ -175,7 +170,6 @@ class MeetingHomeActivity : AppCompatActivity() {
             if (hasPermissionsAlready()) {
                 authenticate(getString(R.string.test_url), meetingID, yourName)
             } else {
-                Log.i("in trouble", "now")
                 ActivityCompat.requestPermissions(this, WEBRTC_PERM, WEBRTC_PERMISSION_REQUEST_CODE)
             }
         }

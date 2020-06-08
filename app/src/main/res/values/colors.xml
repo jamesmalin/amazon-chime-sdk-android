@@ -6,7 +6,7 @@
 
 <resources>
     <!-- For app theme -->
-    <color name="colorPrimary">#008577</color>
+    <color name="colorPrimary">#2784fc</color>
     <color name="colorPrimaryDark">#00574B</color>
     <color name="colorAccent">#D81B60</color>
     <color name="colorText">#3f4149</color>

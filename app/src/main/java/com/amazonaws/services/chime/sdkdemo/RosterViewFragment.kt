@@ -78,16 +78,16 @@ class RosterViewFragment : Fragment(),
     )
 
     enum class SubTab(val position: Int) {
-        Attendee(0),
-        Video(1),
-        Screen(2)
+        Video(0),
+        Attendee(1)
+//        Screen(2)
     }
 
     private lateinit var buttonMute: ImageButton
     private lateinit var buttonVideo: ImageButton
     private lateinit var recyclerViewRoster: RecyclerView
     private lateinit var recyclerViewVideoCollection: RecyclerView
-    private lateinit var recyclerViewScreenShareCollection: RecyclerView
+//    private lateinit var recyclerViewScreenShareCollection: RecyclerView
     private lateinit var rosterAdapter: RosterAdapter
     private lateinit var videoTileAdapter: VideoCollectionTileAdapter
     private lateinit var screenTileAdapter: VideoCollectionTileAdapter
@@ -147,15 +147,12 @@ class RosterViewFragment : Fragment(),
         audioVideo.addRealtimeObserver(this)
         audioVideo.addVideoTileObserver(this)
         audioVideo.start()
+        toggleVideo() // turn on video
         audioVideo.addActiveSpeakerObserver(DefaultActiveSpeakerPolicy(), this)
         return view
     }
 
     private fun setupSubTabs(view: View) {
-        recyclerViewRoster = view.findViewById(R.id.recyclerViewRoster)
-        recyclerViewRoster.layoutManager = LinearLayoutManager(activity)
-        rosterAdapter = RosterAdapter(currentRoster.values)
-        recyclerViewRoster.adapter = rosterAdapter
 
         recyclerViewVideoCollection =
             view.findViewById(R.id.recyclerViewVideoCollection)
@@ -163,12 +160,17 @@ class RosterViewFragment : Fragment(),
         videoTileAdapter = VideoCollectionTileAdapter(currentVideoTiles.values, audioVideo, context)
         recyclerViewVideoCollection.adapter = videoTileAdapter
 
-        recyclerViewScreenShareCollection =
-            view.findViewById(R.id.recyclerViewScreenShareCollection)
-        recyclerViewScreenShareCollection.layoutManager = LinearLayoutManager(activity)
+        recyclerViewRoster = view.findViewById(R.id.recyclerViewRoster)
+        recyclerViewRoster.layoutManager = LinearLayoutManager(activity)
+        rosterAdapter = RosterAdapter(currentRoster.values)
+        recyclerViewRoster.adapter = rosterAdapter
+
+//        recyclerViewScreenShareCollection =
+//            view.findViewById(R.id.recyclerViewScreenShareCollection)
+//        recyclerViewScreenShareCollection.layoutManager = LinearLayoutManager(activity)
         screenTileAdapter =
             VideoCollectionTileAdapter(currentScreenTiles.values, audioVideo, context)
-        recyclerViewScreenShareCollection.adapter = screenTileAdapter
+//        recyclerViewScreenShareCollection.adapter = screenTileAdapter
 
         tabLayout = view.findViewById(R.id.tabLayoutRosterView)
         SubTab.values()
@@ -188,24 +190,24 @@ class RosterViewFragment : Fragment(),
 
     private fun showTabAt(index: Int) {
         when (index) {
-            SubTab.Attendee.position -> {
-                recyclerViewRoster.visibility = View.VISIBLE
-                recyclerViewVideoCollection.visibility = View.GONE
-                recyclerViewScreenShareCollection.visibility = View.GONE
-                audioVideo.stopRemoteVideo()
-            }
             SubTab.Video.position -> {
                 recyclerViewRoster.visibility = View.GONE
                 recyclerViewVideoCollection.visibility = View.VISIBLE
-                recyclerViewScreenShareCollection.visibility = View.GONE
+//                recyclerViewScreenShareCollection.visibility = View.GONE
                 audioVideo.startRemoteVideo()
             }
-            SubTab.Screen.position -> {
-                recyclerViewRoster.visibility = View.GONE
+            SubTab.Attendee.position -> {
+                recyclerViewRoster.visibility = View.VISIBLE
                 recyclerViewVideoCollection.visibility = View.GONE
-                recyclerViewScreenShareCollection.visibility = View.VISIBLE
-                audioVideo.startRemoteVideo()
+//                recyclerViewScreenShareCollection.visibility = View.GONE
+                audioVideo.stopRemoteVideo()
             }
+//            SubTab.Screen.position -> {
+//                recyclerViewRoster.visibility = View.GONE
+//                recyclerViewVideoCollection.visibility = View.GONE
+//                recyclerViewScreenShareCollection.visibility = View.VISIBLE
+//                audioVideo.startRemoteVideo()
+//            }
 
             else -> return
         }

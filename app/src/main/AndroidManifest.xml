@@ -30,10 +30,13 @@
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
 
-                <data android:scheme="myapp" />
+                <data android:scheme="chime" />
             </intent-filter>
         </activity>
+        <activity android:name=".homeLogin" />
+        <activity android:name=".MainHomeActivity" />
         <activity android:name=".InMeetingActivity" />
+        <activity android:name=".ViewVideoActivity" />
     </application>
 
 </manifest>

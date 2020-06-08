@@ -36,16 +36,16 @@
             android:paddingRight="8dp"
             android:src="@drawable/button_mute" />
 
-        <ImageButton
-            android:id="@+id/buttonSpeaker"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:background="@null"
-            android:contentDescription="@string/speaker_button"
-            android:paddingLeft="8dp"
-            android:paddingRight="8dp"
-            android:src="@drawable/button_speaker" />
+<!--        <ImageButton-->
+<!--            android:id="@+id/buttonSpeaker"-->
+<!--            android:layout_width="0dp"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_weight="1"-->
+<!--            android:background="@null"-->
+<!--            android:contentDescription="@string/speaker_button"-->
+<!--            android:paddingLeft="8dp"-->
+<!--            android:paddingRight="8dp"-->
+<!--            android:src="@drawable/button_speaker" />-->
 
         <ImageButton
             android:id="@+id/buttonVideo"
@@ -78,23 +78,24 @@
         android:orientation="vertical" >
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recyclerViewRoster"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
-
-        <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerViewVideoCollection"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:contentDescription="@string/video_view"
-            android:visibility="gone" />
+            />
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recyclerViewScreenShareCollection"
+            android:id="@+id/recyclerViewRoster"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:contentDescription="@string/screen_share_view"
             android:visibility="gone" />
+
+<!--        <androidx.recyclerview.widget.RecyclerView-->
+<!--            android:id="@+id/recyclerViewScreenShareCollection"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="match_parent"-->
+<!--            android:contentDescription="@string/screen_share_view"-->
+<!--            android:visibility="gone" />-->
 
     </LinearLayout>
 

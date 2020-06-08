@@ -23,15 +23,15 @@ import androidx.core.content.ContextCompat
 import com.amazonaws.services.chime.sdk.meetings.utils.Versioning
 import com.amazonaws.services.chime.sdk.meetings.utils.logger.ConsoleLogger
 import com.amazonaws.services.chime.sdk.meetings.utils.logger.LogLevel
-// import com.amplifyframework.AmplifyException
-// import com.amplifyframework.api.aws.AWSApiPlugin
+import com.amplifyframework.AmplifyException
+import com.amplifyframework.api.aws.AWSApiPlugin
 // import com.amplifyframework.auth.AuthChannelEventName
-// import com.amplifyframework.auth.cognito.AWSCognitoAuthPlugin
+import com.amplifyframework.auth.cognito.AWSCognitoAuthPlugin
 // import com.amplifyframework.auth.cognito.AWSCognitoAuthSession
 // import com.amplifyframework.auth.result.AuthSessionResult
 import com.amplifyframework.core.Amplify
 // import com.amplifyframework.core.InitializationStatus
-// import com.amplifyframework.datastore.AWSDataStorePlugin
+import com.amplifyframework.datastore.AWSDataStorePlugin
 // import com.amplifyframework.hub.HubChannel
 // import com.amplifyframework.hub.HubEvent
 import java.io.BufferedReader
@@ -44,7 +44,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-class MeetingHomeActivity : AppCompatActivity() {
+class homeLogin : AppCompatActivity() {
     private val logger = ConsoleLogger(LogLevel.INFO)
     private val uiScope = CoroutineScope(Dispatchers.Main)
     private val ioDispatcher: CoroutineDispatcher = Dispatchers.IO
@@ -73,50 +73,42 @@ class MeetingHomeActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 //        setContentView(R.layout.activity_meeting_home)
-        setContentView(R.layout.activity_user_guest)
-        meetingEditText = findViewById(R.id.editMeetingId)
-        nameEditText = findViewById(R.id.editName)
-        authenticationProgressBar = findViewById(R.id.progressAuthentication)
+//        meetingEditText = findViewById(R.id.editMeetingId)
+//        nameEditText = findViewById(R.id.editName)
+//        authenticationProgressBar = findViewById(R.id.progressAuthentication)
+//
+//        findViewById<Button>(R.id.buttonContinue)?.setOnClickListener { joinMeeting() }
+//
+//        findViewById<Button>(R.id.buttonContinue2)?.setOnClickListener { loginPage() }
+//
+//        val versionText: TextView = findViewById(R.id.versionText) as TextView
+//        versionText.text = "${getString(R.string.version_prefix)}${Versioning.sdkVersion()}"
 
-        findViewById<Button>(R.id.buttonContinue)?.setOnClickListener { joinMeeting() }
-        findViewById<Button>(R.id.buttonContinue)?.setOnClickListener {
-            val intent = Intent(applicationContext, MainHomeActivity::class.java)
-            startActivity(intent)
+        try {
+            Amplify.addPlugin(AWSDataStorePlugin())
+            Amplify.addPlugin(AWSApiPlugin())
+            Amplify.addPlugin(AWSCognitoAuthPlugin())
+            Amplify.configure(applicationContext)
+
+            Log.i("Tutorial", "Initialized Amplify")
+        } catch (e: AmplifyException) {
+            Log.e("Tutorial", "Could not initialize Amplify", e)
         }
 
-        findViewById<Button>(R.id.buttonContinue3)?.setOnClickListener {
-            val intent = Intent(applicationContext, ViewVideoActivity::class.java)
-            startActivity(intent)
-        }
-
-        val versionText: TextView = findViewById(R.id.versionText) as TextView
-        versionText.text = "${getString(R.string.version_prefix)}${Versioning.sdkVersion()}"
-
-//        try {
-//            Amplify.addPlugin(AWSDataStorePlugin())
-//            Amplify.addPlugin(AWSApiPlugin())
-//            Amplify.addPlugin(AWSCognitoAuthPlugin())
-//            Amplify.configure(applicationContext)
-//
-//            Log.i("Tutorial", "Initialized Amplify")
-//        } catch (e: AmplifyException) {
-//            Log.e("Tutorial", "Could not initialize Amplify", e)
-//        }
-//
-//        Amplify.Auth.signInWithWebUI(
-//            this,
-//            { result -> Log.i("AuthQuickStart", result.toString()) },
-//            { error -> Amplify.Auth.handleWebUISignInResponse(intent)
-//                Log.e("AuthQuickStart", error.toString())
+        Amplify.Auth.signInWithWebUI(
+            this,
+            { result -> Log.i("AuthQuickStart", result.toString()) },
+            { error -> Amplify.Auth.handleWebUISignInResponse(intent)
+                Log.e("AuthQuickStart", error.toString())
 //                val intent = Intent(applicationContext, homeLogin::class.java)
 //                startActivity(intent)
-//            }
-//        )
+            }
+        )
     }
 
-//    override fun onNewIntent(intent: Intent?) {
-//        super.onNewIntent(intent)
-//    }
+    override fun onNewIntent(intent: Intent?) {
+        super.onNewIntent(intent)
+    }
 
 //    override fun onResume() {
 //        super.onResume()
@@ -175,7 +167,6 @@ class MeetingHomeActivity : AppCompatActivity() {
             if (hasPermissionsAlready()) {
                 authenticate(getString(R.string.test_url), meetingID, yourName)
             } else {
-                Log.i("in trouble", "now")
                 ActivityCompat.requestPermissions(this, WEBRTC_PERM, WEBRTC_PERMISSION_REQUEST_CODE)
             }
         }

@@ -16,7 +16,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="32dp"
-        android:text="@string/main_title"
+        android:text="@string/main_login"
         android:textAppearance="@style/TextAppearance.AppCompat.Display1" />
 
     <EditText
@@ -24,19 +24,19 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="16dp"
-        android:hint="@string/edit_meeting_id"
-        android:inputType="text"
+        android:hint="@string/username"
         android:importantForAutofill="no"
+        android:inputType="text"
         android:maxLength="35" />
 
     <EditText
         android:id="@+id/editName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:hint="@string/edit_name"
-        android:inputType="text"
+        android:layout_marginBottom="16dp"
+        android:hint="@string/password"
         android:importantForAutofill="no"
-        android:layout_marginBottom="16dp" />
+        android:inputType="text" />
 
     <Button
         android:id="@+id/buttonContinue"
@@ -46,6 +46,15 @@
         android:paddingLeft="20dp"
         android:paddingRight="20dp"
         android:text="@string/main_continue" />
+
+    <Button
+        android:id="@+id/buttonContinue3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:contentDescription="@string/main_guest"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
+        android:text="@string/main_guest" />
 
     <ProgressBar
         android:id="@+id/progressAuthentication"
